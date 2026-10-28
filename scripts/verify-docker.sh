@@ -39,7 +39,7 @@ docker run --rm -e CONSTRAINT="$CONSTRAINT" -e COMPOSER_ALLOW_SUPERUSER=1 -v "$P
   echo "ok   no tag before a site id is set"
 
   sed -i "s/^site_id: .*/site_id: pa_Docker123/; s/^modules: .*/modules: [engage, vitals]/" $CFG
-  php bin/console cache:clear -q
+  php -d memory_limit=-1 bin/console cache:clear -q
   curl -s -o /tmp/page.html "$B/search"
   EXPECTED="<script defer src=\"https://privatusstats.com/js/pa.js\" data-site=\"pa_Docker123\" data-modules=\"engage,vitals\"></script>"
   grep -qF "$EXPECTED" /tmp/page.html || { echo "FAIL: tag not on page"; exit 1; }
@@ -63,7 +63,7 @@ docker run --rm -e CONSTRAINT="$CONSTRAINT" -e COMPOSER_ALLOW_SUPERUSER=1 -v "$P
   echo "ok   logged-in user gets no tag"
 
   sed -i "s/^site_id: .*/site_id: \"pa_x\\\\\" onload=alert(1)\"/" $CFG
-  php bin/console cache:clear -q
+  php -d memory_limit=-1 bin/console cache:clear -q
   test "$(count $B/search)" = 0 || { echo "FAIL: bad site id printed a tag"; exit 1; }
   echo "ok   a bad site id prints no tag"
   if grep -i "PHP Fatal\|PHP Warning" /tmp/server.log; then echo "FAIL: PHP errors"; exit 1; fi

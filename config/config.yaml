@@ -1,0 +1,17 @@
+# Privatus Analytics settings.
+
+# Your site ID. It starts with pa_. You find it in Privatus Analytics under
+# Site settings, Tracking. Nothing is added to your pages until this is set.
+# If you leave it empty, the PRIVATUS_SITE_ID environment variable is used.
+site_id: ''
+
+# Extra tracking to load. Remove a name to turn it off. Use [] to load none.
+#   engage: time on page and how far people scroll
+#   auto:   clicks on outside links, file downloads, forms people send and missing pages (404)
+#   vitals: page speed (Web Vitals)
+#   clicks: click maps
+#   ask:    short surveys on your site
+modules: [engage, auto, vitals, clicks, ask]
+
+# Don't count visits from people who are logged in to Bolt.
+skip_logged_in: true
